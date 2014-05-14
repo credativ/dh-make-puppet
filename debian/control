@@ -1,10 +1,10 @@
 Source: dh-make-puppet
 Maintainer: credativ GmbH <info@credativ.de>
-Uploaders: Patrick Schoenfeld <patrick.schoenfeld@debian.org>
+Uploaders: Patrick Schoenfeld <patrick.schoenfeld@credativ.de>
 Section: utils
 Priority: optional
 Build-Depends: debhelper (>= 7), perl
-Standards-Version: 3.9.5
+Standards-Version: 3.9.4
 
 Package: dh-make-puppet
 Architecture: all
