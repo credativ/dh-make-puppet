@@ -1,0 +1,4 @@
+dh-make-puppet is Copyright 2014 Patrick Schoenfeld <patrick.schoenfeld@credativ.de>
+
+Thanks goes to the developers and maintainers of dh-make-php (Uwe Steinmann and
+others), on which dh-make-php is based.
