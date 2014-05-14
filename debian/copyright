@@ -2,3 +2,7 @@ dh-make-puppet is Copyright 2014 Patrick Schoenfeld <patrick.schoenfeld@credativ
 
 Thanks goes to the developers and maintainers of dh-make-php (Uwe Steinmann and
 others), on which dh-make-php is based.
+
+dh-make-puppet is licenced under the terms of the GNU General Public License
+(GPL), which can be found in /usr/share/common-licenses/GPL on Debian systems.
+
