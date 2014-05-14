@@ -1,0 +1,139 @@
+#!/bin/sh
+
+PROGNAME=dh-make-puppet
+PROGVERSION=0.1
+
+WORKDIR=.
+DEBPACKAGEPREFIX=
+DEBTEMPDIR=/usr/share/dh-make-puppet/templates
+# if you change the examples directory make sure to adjust the
+# regular expression to set the PACKAGEDOCFILES
+PACKAGEEXPFILES="examples"
+DEBMAINTAINER=
+DEPENDS=
+MODULENAME=
+PACKAGENAME=
+RENAMESOURCE=
+MODULEVER=1.0-1 #FIXME: We should try to guess that
+
+. /usr/share/dh-make-puppet/dh-make-puppet.lib
+
+# usage() {{{
+# print summary of options
+usage()
+{
+	cat <<eof
+This is ${PROGNAME} Version ${PROGVERSION}
+Copyright (c) 2004-2005 Uwe Steinmann <steinm@debian.org>
+
+Usage: ${PROGNAME} [options] /path/to/module
+
+If no path is specified, $PROGNAME defaults to '.'
+
+Options:
+  --help | -h     show this usage information
+  --version | -v  show version of program
+  --maintainer    maintainer of the debian package
+  --depends       set extra depends
+  --prefix        set prefix for package name (default is '${DEBPACKAGEPREFIX}')
+  --templatedir   set alternative directory for templates
+                  (default is ${DEBTEMPDIR})
+  --modulename    set modulename
+
+eof
+}
+# }}}
+
+if [ ! -z "$1" ]; then
+    WORKDIR=$1
+fi
+
+
+while
+    case $1 in
+        --help|-h) # print usage
+            usage
+            exit 0
+            ;;
+        --version|-v) # show version
+      echo ${PROGVERSION}
+            exit 0
+            ;;
+        --maintainer) # set maintainer of debian package
+            DEBMAINTAINER="$2"; shift
+            ;;
+        --depends) # set extra depends for debian package
+            DEPENDS=", $2"; shift
+            ;;
+        --prefix) # set prefix for name of debian package
+            DEBPACKAGEPREFIX="$2"; shift
+            ;;
+        --templatedir) # set alternative template dir
+            DEBTEMPDIR="$2"; shift
+            ;;
+        --modulename) # set modulename
+            MODULENAME="$2"; shift
+            ;;
+        --moduleversion) # set module version
+            MODULEVER="$2"; shift
+            ;;
+        "")
+            break
+            ;;
+        *)
+            break
+            ;;
+    esac
+do test $# -gt 0 && shift; done
+# }}}
+
+if [ -z "${MODULENAME}" ]; then
+    INITPP="${WORKDIR}/manifests/init.pp"
+    if [ -f $INITPP ]; then
+        MODULENAME="$(grep '^class ' $INITPP|sed -e 's/^class \(.*\) .*/\1/')"
+        echo "Detected '$MODULENAME' as modulename...\n"
+        PACKAGENAME="${DEBPACKAGEPREFIX}puppet-module-${MODULENAME}"
+    else
+        echo "$PROGNAME: current directory does not contain manifests/init.pp (not a puppet module?)"
+        exit 1
+    fi
+fi
+
+get_maintainer
+
+if [ -d "${WORKDIR}/debian" ]; then
+    echo "${PROGNAME}: debian dir already exists in '$WORKDIR'. aborting"
+    exit 1
+fi
+
+echo ""
+echo "Module:       $MODULENAME"
+echo "Package:      $PACKAGENAME"
+echo "Maintainer:   $DEBMAINTAINER"
+echo "Version:      $MODULEVER"
+echo ""
+
+echo -n "Proceed? [yN] "
+read yn
+if [ "$yn" != 'y' ]; then
+    echo "aborting."
+    exit 0
+fi
+
+DEBDIR="${WORKDIR}/debian"
+echo "Creating $DEBDIR"
+mkdir $DEBDIR
+echo "Copying template from $DEBTEMPDIR/* to $DEBDIIR"
+cp -a $DEBTEMPDIR/* $DEBDIR
+
+echo "Replacing placeholders in template files ... "
+for i in ${WORKDIR}/debian/*; do
+    sed -i -e "s/##date##/`(LC_ALL=C; date -R)`/g" \
+        -e "s/##maintainer##/${DEBMAINTAINER}/g" \
+        -e "s/##packagename##/${PACKAGENAME}/g" \
+        -e "s/##modulename##/${MODULENAME}/g" \
+        -e "s/##modulever##/${MODULEVER}/g" \
+        -e "s/##summary##/puppet module $MODULENAME/g" \
+        $i
+done
+echo "\nFinished. You should now be able to build the package."

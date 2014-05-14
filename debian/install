@@ -1,0 +1,3 @@
+dh-make-puppet  usr/bin
+dh-make-puppet.lib  usr/share/dh-make-puppet
+template/*      usr/share/dh-make-puppet/templates

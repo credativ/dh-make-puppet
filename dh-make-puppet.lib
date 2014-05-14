@@ -1,0 +1,48 @@
+#!/bin/sh
+
+get_maintainer() {
+    if [ -z "${DEBMAINTAINER}" ] ; then
+        echo -n "Guessing Maintainer: "
+        if [ -n "${DEBFULLNAME}" ] ; then
+            REALNAME=${DEBFULLNAME}
+        else
+            if [ -n "${USER}" ] ; then
+                MYUSER=${USER}
+            else
+                if [ -n "${LOGNAME}" ] ; then
+                    MYUSER=${LOGNAME}
+                else
+                    MYUSER=$(whoami)
+                fi
+            fi
+            if [ -n "${MYUSER}" ] ; then
+                REALNAME=$(awk -F: "/^${MYUSER}:/ { print \$5 }" /etc/passwd | sed -e "s/,.*//g")
+            else
+                echo "Failed determine real name! Consider using Option --maintainer."
+            fi
+        fi
+
+        if [ -n "${DEBEMAIL}" ] ; then
+            DEBMAINTAINER="${REALNAME} <${DEBEMAIL}>"
+        else
+            if [ -n "${EMAIL}" ]; then
+                DEBMAINTAINER="${REALNAME} <${EMAIL}>"
+            else
+                if [ -f /etc/mailname ] ; then
+                    DEBMAINTAINER="${REALNAME} <${MYUSER}@`cat /etc/mailname`>"
+                else
+                    echo "Failed determine mail address! Consider using Option --maintainer."
+                fi
+            fi
+        fi
+        if [ -z "${DEBMAINTAINER}" ] ; then
+            echo "Failed! Consider using Option --maintainer."
+        else
+            echo $DEBMAINTAINER
+        fi
+    else
+        echo "Using maintainer: $DEBMAINTAINER"
+    fi
+}
+
+# vim: syntax=sh

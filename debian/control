@@ -1,0 +1,21 @@
+Source: dh-make-puppet
+Maintainer: credativ GmbH <info@credativ.de>
+Uploaders: Patrick Schoenfeld <patrick.schoenfeld@debian.org>
+Section: utils
+Priority: optional
+Build-Depends: debhelper (>= 7), perl
+Standards-Version: 3.9.5
+
+Package: dh-make-puppet
+Architecture: all
+Depends: debhelper (>= 8),
+         ${misc:Depends},
+         make,
+         dpkg-dev,
+         fakeroot
+Recommends: apt-file (>= 2.5.0),
+            git,
+            pristine-tar
+Description: helper for creating Debian packages from puppet modules
+ dh-make-puppete will create the files required to build a Debian source
+ package out of a puppet module.

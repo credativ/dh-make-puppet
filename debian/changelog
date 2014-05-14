@@ -1,0 +1,5 @@
+dh-make-puppet (0.1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Patrick Schoenfeld <patrick.schoenfeld@credativ.de>  Wed, 14 May 2014 09:50:55 +0200
