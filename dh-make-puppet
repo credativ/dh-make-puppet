@@ -92,12 +92,13 @@ if [ -z "${MODULENAME}" ]; then
     if [ -f $INITPP ]; then
         MODULENAME="$(grep '^class ' $INITPP|sed -e 's/^class \(.*\) .*/\1/')"
         echo "Detected '$MODULENAME' as modulename...\n"
-        PACKAGENAME="${DEBPACKAGEPREFIX}puppet-module-${MODULENAME}"
     else
         echo "$PROGNAME: current directory does not contain manifests/init.pp (not a puppet module?)"
         exit 1
     fi
 fi
+
+PACKAGENAME="${DEBPACKAGEPREFIX}puppet-module-${MODULENAME}"
 
 get_maintainer
 
