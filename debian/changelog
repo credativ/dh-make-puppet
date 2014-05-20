@@ -1,3 +1,9 @@
+dh-make-puppet (0.2) unstable; urgency=low
+
+  * Fix packagename setting, if modulename is forced via cmdline
+
+ -- Patrick Schoenfeld <patrick.schoenfeld@credativ.de>  Tue, 20 May 2014 11:33:36 +0200
+
 dh-make-puppet (0.1) unstable; urgency=low
 
   * Initial release.
