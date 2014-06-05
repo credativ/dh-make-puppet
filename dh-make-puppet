@@ -44,11 +44,6 @@ eof
 }
 # }}}
 
-if [ ! -z "$1" ]; then
-    WORKDIR=$1
-fi
-
-
 while
     case $1 in
         --help|-h) # print usage
@@ -86,6 +81,11 @@ while
     esac
 do test $# -gt 0 && shift; done
 # }}}
+
+if [ ! -z "$1" ]; then
+    WORKDIR=$1
+fi
+
 
 if [ -z "${MODULENAME}" ]; then
     INITPP="${WORKDIR}/manifests/init.pp"
