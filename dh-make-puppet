@@ -14,7 +14,7 @@ DEPENDS=
 MODULENAME=
 PACKAGENAME=
 RENAMESOURCE=
-MODULEVER=1.0-1 #FIXME: We should try to guess that
+MODULEVER=1.0.1 #FIXME: We should try to guess that
 
 . /usr/share/dh-make-puppet/dh-make-puppet.lib
 
