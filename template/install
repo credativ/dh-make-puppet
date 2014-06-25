@@ -1,9 +1,9 @@
-manifests   etc/puppet/modules/##modulename##
-templates   etc/puppet/modules/##modulename##
-files       etc/puppet/modules/##modulename##
-spec        etc/puppet/modules/##modulename##
-Rakefile    etc/puppet/modules/##modulename##
-Gemfile     etc/puppet/modules/##modulename##
+manifests   usr/share/puppet/modules.available/##modulename##
+templates   usr/share/puppet/modules.available/##modulename##
+files       usr/share/puppet/modules.available/##modulename##
+spec        usr/share/puppet/modules.available/##modulename##
+Rakefile    usr/share/puppet/modules.available/##modulename##
+Gemfile     usr/share/puppet/modules.available/##modulename##
 LICENSE     usr/share/doc/##packagename##
 README*     usr/share/doc/##packagename##
 examples/*  usr/share/doc/##packagename##/examples
