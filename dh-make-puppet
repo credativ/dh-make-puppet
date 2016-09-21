@@ -90,7 +90,7 @@ fi
 if [ -z "${MODULENAME}" ]; then
     INITPP="${WORKDIR}/manifests/init.pp"
     if [ -f $INITPP ]; then
-        MODULENAME=$( grep -Po '^class\s+\K[^(]+' $INITPP )
+        MODULENAME=$( sed -r -n 's/class\s+(\w+).*/\1/p' $INITPP )
         echo "Detected '$MODULENAME' as modulename...\n"
     else
         echo "$PROGNAME: current directory does not contain manifests/init.pp (not a puppet module?)"
